@@ -9,5 +9,26 @@ services:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=cloud_db
     ports:
-      - "5432:5432"
+      - 5432:5432
+
+  server:
+    build: server/
+    command: npm run start:dev
+    environment:
+      # JWT
+      - SECRET_KEY=test123
+      - EXPIRES_IN=30d
+
+      # Database
+      - DB_HOST=db
+      - DB_PORT=5432
+
+      - DB_NAME=cloud_db
+      - DB_USER=admin_cloud
+      - DB_PASS=admin
+
+      # Main settings
+      - LISTEN_PORT=6666
+    ports:
+      - 8000:6666
 

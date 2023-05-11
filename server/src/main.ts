@@ -4,6 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as express from 'express';
 import { join } from 'path';
 
+console.log(`PORT: ${process.env.LISTEN_PORT}`)
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {cors: false});
 
@@ -22,7 +24,7 @@ async function bootstrap() {
       persistAuthorization: true,
     }
   });
-
-  await app.listen(7777);
+  
+  await app.listen(process.env.LISTEN_PORT);
 }
 bootstrap();
