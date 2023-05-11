@@ -1,6 +1,16 @@
-import { UserEntity } from "src/users/entities/user.entity";
-import { Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-
+import {
+    Column,
+    DeleteDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
+import { UserEntity } from '../../users/entities/user.entity';
+  
+export enum FileType {
+    PHOTOS = 'photos',
+    TRASH = 'trash',
+}
 
 @Entity('files')
 export class FileEntity {
@@ -19,9 +29,9 @@ export class FileEntity {
     @Column()
     mimetype: string;
 
-    @ManyToOne(()=> UserEntity, user => user.files)
+    @ManyToOne(() => UserEntity, (user) => user.files)
     user: UserEntity;
 
     @DeleteDateColumn()
-    delateAt?: Date;
+    deletedAt?: Date;
 }

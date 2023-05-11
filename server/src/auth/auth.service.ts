@@ -24,11 +24,20 @@ export class AuthService {
 
   async register(dto: CreateUserDto) {
     try {
-      const userData = await this.usersService.create(dto);
+      const user = await this.usersService.findByEmail(dto.email)
+      
+      if (!user){
+        const userData = await this.usersService.create(dto);   
+        return {
+          token: this.jwtService.sign({ id: userData.id }),
+        };       
+      }
 
+      const userFromDB = await this.usersService.findByEmail(dto.email)
       return {
-        token: this.jwtService.sign({ id: userData.id }),
+        token: this.jwtService.sign({ id: userFromDB.id }),
       };
+
     } catch (err) {
       console.log(err);
       throw new ForbiddenException('Ошибка при регистрации');
